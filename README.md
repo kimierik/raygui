@@ -1,3 +1,7 @@
+This is a fork of https://github.com/raysan5/raygui with the standalone feature removed. For some reason it was causing issues with the zig build system so i removed it. 
+this fork was made for https://github.com/kimierik/keditor. 
+\\
+Original Readme.
 <img align="left" src="logo/raygui_256x256.png" width=256>
 
 **raygui is a simple and easy-to-use immediate-mode-gui library.**
