@@ -336,9 +336,7 @@
 #define RAYGUI_VERSION_PATCH 0
 #define RAYGUI_VERSION  "4.5-dev"
 
-#if !defined(RAYGUI_STANDALONE)
-    #include "raylib.h"
-#endif
+#include "raylib.h"
 
 // Function specifiers in case library is build/used as a shared library (Windows)
 // NOTE: Microsoft specifiers to tell compiler that symbols are imported/exported from a .dll
