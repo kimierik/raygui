@@ -380,82 +380,6 @@
 // Types and Structures Definition
 // NOTE: Some types are required for RAYGUI_STANDALONE usage
 //----------------------------------------------------------------------------------
-#if defined(RAYGUI_STANDALONE)
-    #ifndef __cplusplus
-    // Boolean type
-        #ifndef true
-            typedef enum { false, true } bool;
-        #endif
-    #endif
-
-    // Vector2 type
-    typedef struct Vector2 {
-        float x;
-        float y;
-    } Vector2;
-
-    // Vector3 type                 // -- ConvertHSVtoRGB(), ConvertRGBtoHSV()
-    typedef struct Vector3 {
-        float x;
-        float y;
-        float z;
-    } Vector3;
-
-    // Color type, RGBA (32bit)
-    typedef struct Color {
-        unsigned char r;
-        unsigned char g;
-        unsigned char b;
-        unsigned char a;
-    } Color;
-
-    // Rectangle type
-    typedef struct Rectangle {
-        float x;
-        float y;
-        float width;
-        float height;
-    } Rectangle;
-
-    // TODO: Texture2D type is very coupled to raylib, required by Font type
-    // It should be redesigned to be provided by user
-    typedef struct Texture2D {
-        unsigned int id;        // OpenGL texture id
-        int width;              // Texture base width
-        int height;             // Texture base height
-        int mipmaps;            // Mipmap levels, 1 by default
-        int format;             // Data format (PixelFormat type)
-    } Texture2D;
-
-    // Image, pixel data stored in CPU memory (RAM)
-    typedef struct Image {
-        void *data;             // Image raw data
-        int width;              // Image base width
-        int height;             // Image base height
-        int mipmaps;            // Mipmap levels, 1 by default
-        int format;             // Data format (PixelFormat type)
-    } Image;
-
-    // GlyphInfo, font characters glyphs info
-    typedef struct GlyphInfo {
-        int value;              // Character value (Unicode)
-        int offsetX;            // Character offset X when drawing
-        int offsetY;            // Character offset Y when drawing
-        int advanceX;           // Character advance position X
-        Image image;            // Character image data
-    } GlyphInfo;
-
-    // TODO: Font type is very coupled to raylib, mostly required by GuiLoadStyle()
-    // It should be redesigned to be provided by user
-    typedef struct Font {
-        int baseSize;           // Base size (default chars height)
-        int glyphCount;         // Number of glyph characters
-        int glyphPadding;       // Padding around the glyph characters
-        Texture2D texture;      // Texture atlas containing the glyphs
-        Rectangle *recs;        // Rectangles in texture for the glyphs
-        GlyphInfo *glyphs;      // Glyphs info data
-    } Font;
-#endif
 
 // Style property
 // NOTE: Used when exporting style as code for convenience
@@ -1410,72 +1334,8 @@ static bool guiStyleLoaded = false;         // Style loaded flag for lazy style 
 // NOTE: raygui depend on some raylib input and drawing functions
 // To use raygui as standalone library, below functions must be defined by the user
 //----------------------------------------------------------------------------------
-#if defined(RAYGUI_STANDALONE)
 
-#define KEY_RIGHT           262
-#define KEY_LEFT            263
-#define KEY_DOWN            264
-#define KEY_UP              265
-#define KEY_BACKSPACE       259
-#define KEY_ENTER           257
-
-#define MOUSE_LEFT_BUTTON     0
-
-// Input required functions
-//-------------------------------------------------------------------------------
-static Vector2 GetMousePosition(void);
-static float GetMouseWheelMove(void);
-static bool IsMouseButtonDown(int button);
-static bool IsMouseButtonPressed(int button);
-static bool IsMouseButtonReleased(int button);
-
-static bool IsKeyDown(int key);
-static bool IsKeyPressed(int key);
-static int GetCharPressed(void);         // -- GuiTextBox(), GuiValueBox()
-//-------------------------------------------------------------------------------
-
-// Drawing required functions
-//-------------------------------------------------------------------------------
-static void DrawRectangle(int x, int y, int width, int height, Color color);        // -- GuiDrawRectangle()
-static void DrawRectangleGradientEx(Rectangle rec, Color col1, Color col2, Color col3, Color col4); // -- GuiColorPicker()
-//-------------------------------------------------------------------------------
-
-// Text required functions
-//-------------------------------------------------------------------------------
-static Font GetFontDefault(void);                            // -- GuiLoadStyleDefault()
-static Font LoadFontEx(const char *fileName, int fontSize, int *codepoints, int codepointCount); // -- GuiLoadStyle(), load font
-
-static Texture2D LoadTextureFromImage(Image image);          // -- GuiLoadStyle(), required to load texture from embedded font atlas image
-static void SetShapesTexture(Texture2D tex, Rectangle rec);  // -- GuiLoadStyle(), required to set shapes rec to font white rec (optimization)
-
-static char *LoadFileText(const char *fileName);             // -- GuiLoadStyle(), required to load charset data
-static void UnloadFileText(char *text);                      // -- GuiLoadStyle(), required to unload charset data
-
-static const char *GetDirectoryPath(const char *filePath);   // -- GuiLoadStyle(), required to find charset/font file from text .rgs
-
-static int *LoadCodepoints(const char *text, int *count);    // -- GuiLoadStyle(), required to load required font codepoints list
-static void UnloadCodepoints(int *codepoints);               // -- GuiLoadStyle(), required to unload codepoints list
-
-static unsigned char *DecompressData(const unsigned char *compData, int compDataSize, int *dataSize); // -- GuiLoadStyle()
-//-------------------------------------------------------------------------------
-
-// raylib functions already implemented in raygui
-//-------------------------------------------------------------------------------
-static Color GetColor(int hexValue);                // Returns a Color struct from hexadecimal value
-static int ColorToInt(Color color);                 // Returns hexadecimal value for a Color
-static bool CheckCollisionPointRec(Vector2 point, Rectangle rec);   // Check if point is inside rectangle
-static const char *TextFormat(const char *text, ...);               // Formatting of text with variables to 'embed'
-static const char **TextSplit(const char *text, char delimiter, int *count);    // Split text into multiple strings
-static int TextToInteger(const char *text);         // Get integer value from text
-static float TextToFloat(const char *text);         // Get float value from text
-
-static int GetCodepointNext(const char *text, int *codepointSize);  // Get next codepoint in a UTF-8 encoded text
-static const char *CodepointToUTF8(int codepoint, int *byteSize);   // Encode codepoint into UTF-8 text (char array size returned as parameter)
-
-static void DrawRectangleGradientV(int posX, int posY, int width, int height, Color color1, Color color2);  // Draw rectangle vertical gradient
-//-------------------------------------------------------------------------------
-
-#endif      // RAYGUI_STANDALONE
+float TextToFloat(const char *text);         // Get float value from text
 
 //----------------------------------------------------------------------------------
 // Module specific Functions Declaration
